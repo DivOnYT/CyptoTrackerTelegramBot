@@ -2,7 +2,7 @@ import time, requests, asyncio
 from telegram import Bot
 
 # Replace with your Telegram bot token and channel ID
-token_telegram_bot = "6602062815:AAH0CK-fNuL00ojz8_UX9zP5f66MQ013h94"
+token_telegram_bot = ""
 id_canal_telegram = -4023725807
 
 tokens_names = [
