@@ -2,12 +2,12 @@ import time, requests, asyncio
 from telegram import Bot
 
 # Replace with your Telegram bot token and channel ID
-token_telegram_bot = "6602062815:AAH0CK-fNuL00ojz8_UX9zP5f66MQ013h94"
+token_telegram_bot = ""
 id_canal_telegram = -4023725807
 
 tokens_names = [
     ["0x2170Ed0880ac9A755fd29B2688956BD959F933F8", "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"],
-    ["0x2170Ed0880ac9A755fd29B2688956BD959F933F8", "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"]    #<----- Here is an example use
+    []    #<----- Here is an example use
 ]  # Format: [ [100 BEST TOKENS], [100 NEW TOKENS] ]
 
 last_tokens = [[], []]  # Record of tokens from the last 15 minutes, same format as tokens_names
@@ -45,7 +45,6 @@ async def verify_pair_changes():
                     loop.run_until_complete(asyncio.sleep(time_left))
 
             response = requests.get(url + str(token))
-            print(response)
             requests_count += 1
             if response.status_code == 200:
                 data = response.json()["pairs"][0]
@@ -72,10 +71,6 @@ async def verify_pair_changes():
                                     print(message)
                                     await notifier_telegram(message)
 
-                                print(index_last,indx)
-                                for x in last_tokens:
-                                    print(x)
-
                                 last_tokens[indx][index_last] = data
                 else:
                     last_tokens[indx].append(data)
@@ -83,6 +78,7 @@ async def verify_pair_changes():
 # Run the program every 15 minutes
 loop = asyncio.get_event_loop()
 loop.run_until_complete(start())
+
 while True:
     print("Doing Verifications")
     loop.run_until_complete(verify_pair_changes())
