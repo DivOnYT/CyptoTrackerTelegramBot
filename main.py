@@ -45,6 +45,7 @@ async def verify_pair_changes():
                     loop.run_until_complete(asyncio.sleep(time_left))
 
             response = requests.get(url + str(token))
+            print(response)
             requests_count += 1
             if response.status_code == 200:
                 data = response.json()["pairs"][0]
@@ -64,7 +65,7 @@ async def verify_pair_changes():
                                 if abs((new_price - last_price) / last_price) * 100 >= seuil_pourcentage or \
                                         abs((new_volume - last_volume) / last_volume) * 100 >= seuil_pourcentage or \
                                         abs((new_fdv - last_fdv) / last_fdv) * 100 >= seuil_pourcentage:
-                                    message = f"The Token {data['pairAddress']} has a change:\n" \
+                                    message = f"The Token {data['pairAddress']} : '{data['baseToken']['name']}' has a change:\n" \
                                               f"Price Change (15min): {(new_price - last_price) / last_price * 100}%\n" \
                                               f"Volume Change (15min): {(new_volume - last_volume) / last_volume * 100}%\n" \
                                               f"Market Cap Change: {(new_fdv - last_fdv) / last_fdv * 100}%"
