@@ -5,6 +5,3 @@ reponse = requests.get(url)
 if reponse.status_code == 200:
     donnees = reponse.json()["pairs"][0]
     print(donnees)
-
-pourcentage = 10 ** -1
-print(pourcentage)
