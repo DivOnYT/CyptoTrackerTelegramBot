@@ -36,7 +36,7 @@ async def verify_pair_changes():
     for indx, name in enumerate(tokens_names):
         for token in name:
 
-            if requests_start <= max_requests_limit:
+            if requests_start <= max_requests_limit: # anti ban ip system
                 time_left = time.time() - requests_start
                 if time_left >= 60:
                     requests_count = 0
