@@ -35,15 +35,16 @@ async def verify_pair_changes():
     url = "https://api.dexscreener.io/latest/dex/tokens/"  # Replace with the actual API endpoint
     for indx, name in enumerate(tokens_names):
         for token in name:
+
             if requests_start <= max_requests_limit:
                 time_left = time.time() - requests_start
                 if time_left >= 60:
                     requests_count = 0
                     requests_start = time.time()
                 else:
-                    time.sleep(time_left)
+                    loop.run_until_complete(asyncio.sleep(time_left))
+
             response = requests.get(url + str(token))
-            print(last_tokens)
             requests_count += 1
             if response.status_code == 200:
                 data = response.json()["pairs"][0]
@@ -76,6 +77,7 @@ async def verify_pair_changes():
 loop = asyncio.get_event_loop()
 loop.run_until_complete(start())
 while True:
+    print("Doing Verifications")
     loop.run_until_complete(verify_pair_changes())
     # Wait for 15 minutes before the next execution
     loop.run_until_complete(asyncio.sleep(periode_bougies_minutes * 60))
