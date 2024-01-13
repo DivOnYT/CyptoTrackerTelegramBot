@@ -2,7 +2,7 @@ import time, requests, asyncio
 from telegram import Bot
 
 # Replace with your Telegram bot token and channel ID
-token_telegram_bot = ""
+token_telegram_bot = "6602062815:AAH0CK-fNuL00ojz8_UX9zP5f66MQ013h94"
 id_canal_telegram = -4023725807
 
 tokens_names = [
@@ -49,9 +49,9 @@ async def verify_pair_changes():
             requests_count += 1
             if response.status_code == 200:
                 data = response.json()["pairs"][0]
-                if last_tokens != [[], []]:
+                if last_tokens != [[], []] and len(last_tokens[0]) == len(tokens_names[0]) and len(last_tokens[1]) == len(tokens_names[1]):
                     for last_token in last_tokens:
-                        for last_tokn in last_token:
+                        for index_last, last_tokn in enumerate(last_token):
                             if last_tokn["baseToken"]["address"] == data["baseToken"]["address"]:
                                 last_price = float(last_tokn["priceNative"])
                                 new_price = float(data["priceNative"])
@@ -71,6 +71,12 @@ async def verify_pair_changes():
                                               f"Market Cap Change: {(new_fdv - last_fdv) / last_fdv * 100}%"
                                     print(message)
                                     await notifier_telegram(message)
+
+                                print(index_last,indx)
+                                for x in last_tokens:
+                                    print(x)
+
+                                last_tokens[indx][index_last] = data
                 else:
                     last_tokens[indx].append(data)
 
